@@ -164,7 +164,7 @@ class ProgressWindow(QWidget):
         if not os.path.exists('paperA_test'):
             os.mkdir('paperA_test')
 
-        N = Network(10, 5)
+        N = Network(50, 1)
         N.creategrid()
         N.randomize_atts('h', 'Motorway')
         N.same_atts('p', 'None')
@@ -186,16 +186,26 @@ class ProgressWindow(QWidget):
         plt.clf()
 
     def hc_test_with_plot(self):
-        sizes = [50]
-        scales = [1]
+        sizes = [10, 50, 100]
+        scales = [1, 5, 10]
+
+        points = []
 
         self.hcwp_progress.setMaximum(len(sizes)*len(scales))
 
         for i in range(len(sizes)):
             for j in range(len(scales)):
                 hcwp = HcPlotObjs(sizes[i], scales[j], self)
-                hcwp.test()
+                value = hcwp.test()
+                points.append(value)
+
                 self.hcwp_progress.setValue(i * len(scales) + j + 1)
+
+        coordinates = zip(*points)
+
+        fig, ax = plt.subplots(1, 1, figsize=(12,12))
+        ax.plot(list(coordinates[0]), list(coordinates[1]), '-ro')
+        fig.savefig('HC_plot_objs/' + 'iter_vs_shortest.png')
 
 def main():
     if not os.path.exists('tests'):
@@ -209,6 +219,7 @@ def main():
     P.show()
 
     sys.exit(app.exec_())
+
 
 if __name__ == '__main__':
     main()

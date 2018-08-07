@@ -99,18 +99,23 @@ class HcPlotObjs(QDialog):
         for i in range(len(self.H.tv_list)):
             indexes.append(i + 1)
 
-        plt.plot(indexes, self.H.tv_list, 'r')
+        hcplot, hcplotax = plt.subplots(1, 1, figsize=(12, 12))
+        hcplotax.plot(indexes, self.H.tv_list, color='r', marker='o', ms=2, mfc='g', mec='g', lw=2)
 
         if not os.path.exists(self.folder):
             os.mkdir(self.folder)
 
-        save_image(self.folder + '/obj-plots', str(self.size) + '_' + str(self.scale))
+        if not os.path.exists(self.folder + '/obj-plots'):
+            os.mkdir(self.folder + '/obj-plots')
+
+        hcplot.savefig(self.folder + '/obj-plots' + '/' + str(self.size) + '_' + str(self.scale))
 
         self.progress.setValue(7)
         QApplication.processEvents()
 
         plt.clf()
         self.close()
+        return max(indexes), self.H.shortest_path_length
 
 
 

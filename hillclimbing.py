@@ -4,6 +4,7 @@ from collections import Counter
 import networkx as nx
 import matplotlib.pyplot as plt
 import random
+import math
 import operator
 import copy
 
@@ -21,11 +22,13 @@ class HillClimb():
         self.counter = 0
         self.consistency = 0
         self.consistencylimit = 100000
+        self.jumps_done = []
         ##########################
         self.optimaltv = 0
         self.optimalpath = []
         self.optimalset = []
         self.tv_list = []
+        self.shortest_path_length = 0
         ##########################
         self.buffer = {}
         self.frequencies = {}
@@ -40,6 +43,9 @@ class HillClimb():
         self.leafoptions = {'node_color': 'blue', 'edge_color': 'blue', 'node_size': 1, 'width': 3}
 
     def multiple_trials(self, *args):
+        spl = nx.shortest_path_length(self.subnetwork.graph, source=self.origin, target=self.destination, weight='w')
+        self.shortest_path_length = spl
+
         if len(self.vertexset) != 1:
             opt_tv_list = []
 
@@ -101,7 +107,22 @@ class HillClimb():
         self.tv_list.append(self.iterations['guess'][1])
 
     def hill_climb(self):
-        while self.consistency <= self.consistencylimit:
+        guess_len = len(self.iterations['guess'][0])
+        remaining = len(self.vertexset) - guess_len
+
+        if guess_len == 1:
+            remove_chances = 0
+        else:
+            remove_chances = guess_len
+
+        add_chances = (guess_len+1)*remaining
+        change_chances = guess_len*remaining
+        fact = math.factorial
+        swap_chances = fact(guess_len) / fact(guess_len - 2) / fact(2)
+
+        total_chances = add_chances + remove_chances + change_chances + swap_chances
+
+        while self.consistency <= total_chances:
             self.counter = self.climb_trial(self.counter)
 
         self.optimalpath = self.iterations['guess'][0]
@@ -110,20 +131,24 @@ class HillClimb():
         return optimaltv
 
     def climb_trial(self, i):
-        status = self.checkstatus(self.iterations['guess'][0])
         guesscopy = copy.copy(self.iterations['guess'][0])
-        jump = self.randomjump(status, guesscopy)
-        whatif = self.findtvratio(guesscopy, self.alpha)
+        jump = self.randomjump(guesscopy)
+        record = jump[1]
+        whatif = self.findtvratio(jump[0], self.alpha)
 
         self.iterations['jump'][0] = jump[0]
         self.iterations['jump'][1] = whatif
 
         if self.iterations['jump'][1] < self.iterations['guess'][1]:
             self.consistency = 0
+            self.jumps_done = []
+
             self.iterations['guess'][0] = copy.copy(self.iterations['jump'][0])
             self.iterations['guess'][1] = self.iterations['jump'][1]
             self.tv_list.append(self.iterations['guess'][1])
+
         else:
+            self.jumps_done.append(record)
             self.consistency += 1
 
         i += 1
@@ -137,11 +162,18 @@ class HillClimb():
         else:
             return 'filled'
 
-    def randomjump(self, status, jump):
+    def randomjump(self, jump):
         move = {'full': [self.swapnode, self.removenode], 'empty': [self.addnode, self.changenode],
                 'filled':[self.swapnode, self.addnode, self.removenode, self.changenode]}
 
-        result = random.choice(move[status])(jump)
+        jump_copy = copy.copy(jump)
+
+        status = self.checkstatus(jump_copy)
+        result = random.choice(move[status])(jump_copy)
+
+        while result[1] in self.jumps_done:
+            status = self.checkstatus(jump_copy)
+            result = random.choice(move[status])(jump_copy)
 
         return result
 
@@ -149,35 +181,45 @@ class HillClimb():
             x = random.choice(range(len(jump)))
             y = random.choice(range(len(jump)))
 
-            if x != y:
-                temp = jump[x]
-                jump[x] = jump[y]
-                jump[y] = temp
+            while x == y:
+                y = random.choice(range(len(jump)))
 
-            else:
-                self.swapnode(jump)
+            swap_id = 's_' + str(min(jump[x], jump[y])) + '_' + str(max(jump[x], jump[y]))
 
-            return [jump, 'swap', (x, y)]
+            temp = jump[x]
+            jump[x] = jump[y]
+            jump[y] = temp
+
+            return [jump, swap_id, (x, y)]
 
     def addnode(self, jump):
-            x = random.choice(range(len(jump)))
+            x = random.choice(range(len(jump)+1))
             node = random.choice(list(set(self.vertexset) - set(jump)))
+
+            add_id = 'a_' + str(x) + '_' + str(node)
+
             jump.insert(x, node)
 
-            return [jump, 'add', x]
+            return [jump, add_id, x]
 
     def removenode(self, jump):
-            x = random.choice(range(len(jump)))
-            del jump[x]
+        x = random.choice(range(len(jump)))
 
-            return [jump, 'remove', x]
+        remove_id = 'r_' + str(jump[x])
+
+        del jump[x]
+
+        return [jump, remove_id, x]
 
     def changenode(self, jump):
             x = random.choice(range(len(jump)))
             node = random.choice(list(set(self.vertexset) - set(jump)))
+
+            change_id = 'c_' + str(min(jump[x], node)) + '_' + str(max(jump[x], node))
+
             jump[x] = node
 
-            return [jump, 'change', x]
+            return [jump, change_id, x]
 
     def findtvratio(self, path, alpha):
         o = self.origin
