@@ -79,6 +79,9 @@ class PaperA_Test(QDialog):
         self.progress.setMaximum(runs)
         self.show()
 
+        size_tag = str(self.N.size) + '-'
+        scale_tag = str(self.N.scale) + 'm'
+
         for i in range(runs+1):
             self.initialize_test()
             if i == 0:
@@ -87,7 +90,7 @@ class PaperA_Test(QDialog):
                 self.filter_nlargest(i * interval)
 
             if self.draw_mode == 'draw_output':
-                save_image(str(self.alpha), str(i) + '_' + interval + '_nodes')
+                save_image(str(self.alpha) + size_tag + scale_tag, str(i) + '_' + interval + '_nodes')
 
             self.progress.setValue(i+1)
             QApplication.processEvents()
@@ -100,9 +103,9 @@ class PaperA_Test(QDialog):
         axes.set_ylim(0, 2 * self.N.size)
 
         if self.draw_mode == 'draw_output':
-            save_image(str(self.alpha), 'node-obj plot')
+            save_image(str(self.alpha) + size_tag + scale_tag, 'node-obj plot')
         else:
-            save_image('paperA_test/no_drawing', str(self.alpha) + 'node-obj plot')
+            save_image('paperA_test/no_drawing_' + size_tag + scale_tag, str(self.alpha) + 'node-obj plot')
 
         plt.clf()
         self.close()

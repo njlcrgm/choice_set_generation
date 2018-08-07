@@ -3,6 +3,7 @@ from PySide2.QtCore import *
 from utilities import *
 from network import Network
 
+from hc_plot_objs_test import *
 from paperA_test import *
 from standard_test import *
 from hc_test import *
@@ -12,6 +13,7 @@ from filter_test import *
 from ellipse_test import *
 
 import matplotlib.pyplot as plt
+import math
 import sys
 import os
 
@@ -28,6 +30,7 @@ class ProgressWindow(QWidget):
         self.gc_button = QPushButton('Graph Construction Test', self)
         self.vc_button = QPushButton('Vertex Cover Test', self)
         self.hc_button = QPushButton('Hill Climb Test', self)
+        self.hcwp_button = QPushButton('HC w/ Plot Test', self)
         self.standard_button = QPushButton('Standard Test', self)
         self.paperA_button = QPushButton('Paper A Test', self)
 
@@ -36,6 +39,7 @@ class ProgressWindow(QWidget):
         self.gc_button.clicked.connect(self.test_graph_construction)
         self.vc_button.clicked.connect(self.test_vc)
         self.hc_button.clicked.connect(self.test_hill_climb)
+        self.hcwp_button.clicked.connect(self.hc_test_with_plot)
         self.standard_button.clicked.connect(self.test_standard)
         self.paperA_button.clicked.connect(self.test_paperA)
 
@@ -44,6 +48,7 @@ class ProgressWindow(QWidget):
         self.gc_progress = QProgressBar(self)
         self.vc_progress = QProgressBar(self)
         self.hc_progress = QProgressBar(self)
+        self.hcwp_progress = QProgressBar(self)
         self.standard_progress = QProgressBar(self)
         self.paperA_progress = QProgressBar(self)
 
@@ -52,16 +57,18 @@ class ProgressWindow(QWidget):
         self.layout.addWidget(self.gc_button, 2, 0)
         self.layout.addWidget(self.vc_button, 3, 0)
         self.layout.addWidget(self.hc_button, 4, 0)
-        self.layout.addWidget(self.standard_button, 5, 0)
-        self.layout.addWidget(self.paperA_button, 6, 0)
+        self.layout.addWidget(self.hcwp_button, 5, 0)
+        self.layout.addWidget(self.standard_button, 6, 0)
+        self.layout.addWidget(self.paperA_button, 7, 0)
 
         self.layout.addWidget(self.ellipse_progress, 0, 1)
         self.layout.addWidget(self.filter_progress, 1, 1)
         self.layout.addWidget(self.gc_progress, 2, 1)
         self.layout.addWidget(self.vc_progress, 3, 1)
         self.layout.addWidget(self.hc_progress, 4, 1)
-        self.layout.addWidget(self.standard_progress, 5, 1)
-        self.layout.addWidget(self.paperA_progress, 6, 1)
+        self.layout.addWidget(self.hcwp_progress, 5, 1)
+        self.layout.addWidget(self.standard_progress, 6, 1)
+        self.layout.addWidget(self.paperA_progress, 7, 1)
 
     def test_ellipse(self):
         size_iterations = [10, 50, 100]
@@ -115,7 +122,8 @@ class ProgressWindow(QWidget):
             QApplication.processEvents()
 
     def test_hill_climb(self):
-        iterations = [10, 20, 25, 50, 100]
+        # iterations = [10, 20, 25, 50, 100]
+        iterations = [100]
         self.hc_progress.setMaximum(len(iterations))
 
         for i in range(len(iterations)):
@@ -148,7 +156,7 @@ class ProgressWindow(QWidget):
             QApplication.processEvents()
 
     def test_paperA(self):
-        iterations = [0.0, 0.2, 0.4, 0.6, 0.8, 1]
+        iterations = [0.0, 0.25, 0.5, 0.75, 1]
         values = [0 for i in range(len(iterations))]
 
         self.paperA_progress.setMaximum(len(iterations))
@@ -156,7 +164,7 @@ class ProgressWindow(QWidget):
         if not os.path.exists('paperA_test'):
             os.mkdir('paperA_test')
 
-        N = Network(50, 1)
+        N = Network(10, 5)
         N.creategrid()
         N.randomize_atts('h', 'Motorway')
         N.same_atts('p', 'None')
@@ -164,14 +172,30 @@ class ProgressWindow(QWidget):
 
         for i in range(len(iterations)):
             P = PaperA_Test(iterations[i], N, self)
-            y = P.test(50, 2)
+            y = P.test(25, 4)
             values[i] = y
             self.paperA_progress.setValue(i + 1)
             QApplication.processEvents()
 
         plt.plot(iterations, values)
-        save_image('paperA_test', str(iterations[0]) + '-' + str(iterations[len(iterations)-1]))
+        size_tag = str(N.size) + '-'
+        scale_tag = str(N.scale) + 'm'
+        alpha_start_tag = str(iterations[0])
+        alpha_end_tag = str(iterations[len(iterations)-1])
+        save_image('paperA_test/alpha-fn_plots', size_tag + scale_tag + '-' + alpha_start_tag + '-' + alpha_end_tag)
         plt.clf()
+
+    def hc_test_with_plot(self):
+        sizes = [50]
+        scales = [1]
+
+        self.hcwp_progress.setMaximum(len(sizes)*len(scales))
+
+        for i in range(len(sizes)):
+            for j in range(len(scales)):
+                hcwp = HcPlotObjs(sizes[i], scales[j], self)
+                hcwp.test()
+                self.hcwp_progress.setValue(i * len(scales) + j + 1)
 
 def main():
     if not os.path.exists('tests'):
@@ -183,6 +207,7 @@ def main():
     P = ProgressWindow()
 
     P.show()
+
     sys.exit(app.exec_())
 
 if __name__ == '__main__':

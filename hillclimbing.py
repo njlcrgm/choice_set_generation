@@ -20,11 +20,12 @@ class HillClimb():
         self.iterations = {}
         self.counter = 0
         self.consistency = 0
-        self.consistencylimit = 100*len(vertexset)
+        self.consistencylimit = 100000
         ##########################
         self.optimaltv = 0
         self.optimalpath = []
         self.optimalset = []
+        self.tv_list = []
         ##########################
         self.buffer = {}
         self.frequencies = {}
@@ -97,6 +98,7 @@ class HillClimb():
         self.iterations['jump'][0] = copy.copy(initial)
         self.iterations['guess'][1] = self.findtvratio(self.iterations['guess'][0], self.alpha)
         self.iterations['jump'][1] = self.findtvratio(self.iterations['jump'][0], self.alpha)
+        self.tv_list.append(self.iterations['guess'][1])
 
     def hill_climb(self):
         while self.consistency <= self.consistencylimit:
@@ -120,6 +122,7 @@ class HillClimb():
             self.consistency = 0
             self.iterations['guess'][0] = copy.copy(self.iterations['jump'][0])
             self.iterations['guess'][1] = self.iterations['jump'][1]
+            self.tv_list.append(self.iterations['guess'][1])
         else:
             self.consistency += 1
 
