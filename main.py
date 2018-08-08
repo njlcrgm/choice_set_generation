@@ -33,6 +33,7 @@ class ProgressWindow(QWidget):
         self.hcwp_button = QPushButton('HC w/ Plot Test', self)
         self.standard_button = QPushButton('Standard Test', self)
         self.paperA_button = QPushButton('Paper A Test', self)
+        self.run_all_button = QPushButton('Run All Tests', self)
 
         self.ellipse_button.clicked.connect(self.test_ellipse)
         self.filter_button.clicked.connect(self.test_filter)
@@ -42,6 +43,7 @@ class ProgressWindow(QWidget):
         self.hcwp_button.clicked.connect(self.hc_test_with_plot)
         self.standard_button.clicked.connect(self.test_standard)
         self.paperA_button.clicked.connect(self.test_paperA)
+        self.run_all_button.clicked.connect(self.run_all_tests)
 
         self.ellipse_progress = QProgressBar(self)
         self.filter_progress = QProgressBar(self)
@@ -60,6 +62,7 @@ class ProgressWindow(QWidget):
         self.layout.addWidget(self.hcwp_button, 5, 0)
         self.layout.addWidget(self.standard_button, 6, 0)
         self.layout.addWidget(self.paperA_button, 7, 0)
+        self.layout.addWidget(self.run_all_button, 8, 0)
 
         self.layout.addWidget(self.ellipse_progress, 0, 1)
         self.layout.addWidget(self.filter_progress, 1, 1)
@@ -156,34 +159,40 @@ class ProgressWindow(QWidget):
             QApplication.processEvents()
 
     def test_paperA(self):
+
+        sizes = [10, 50, 100]
+        scales = [1, 5, 10]
         iterations = [0.0, 0.25, 0.5, 0.75, 1]
-        values = [0 for i in range(len(iterations))]
 
-        self.paperA_progress.setMaximum(len(iterations))
+        for z in sizes:
+            for c in scales:
+                values = [0 for i in range(len(iterations))]
+                self.paperA_progress.setMaximum(len(iterations))
 
-        if not os.path.exists('paperA_test'):
-            os.mkdir('paperA_test')
+                if not os.path.exists('paperA_test'):
+                    os.mkdir('paperA_test')
 
-        N = Network(50, 1)
-        N.creategrid()
-        N.randomize_atts('h', 'Motorway')
-        N.same_atts('p', 'None')
-        N.same_atts('s', (0, 6))
+                N = Network(z, c)
+                N.creategrid()
+                N.randomize_atts('h', 'Motorway')
+                N.same_atts('p', 'None')
+                N.same_atts('s', (0, 6))
 
-        for i in range(len(iterations)):
-            P = PaperA_Test(iterations[i], N, self)
-            y = P.test(25, 4)
-            values[i] = y
-            self.paperA_progress.setValue(i + 1)
-            QApplication.processEvents()
+                for i in range(len(iterations)):
+                    P = PaperA_Test(iterations[i], N, self)
+                    y = P.test(25, 4)
+                    values[i] = y
+                    self.paperA_progress.setValue(z*len(sizes)*len(scales) + c*len(scales) + i + 1)
+                    QApplication.processEvents()
 
-        plt.plot(iterations, values)
-        size_tag = str(N.size) + '-'
-        scale_tag = str(N.scale) + 'm'
-        alpha_start_tag = str(iterations[0])
-        alpha_end_tag = str(iterations[len(iterations)-1])
-        save_image('paperA_test/alpha-fn_plots', size_tag + scale_tag + '-' + alpha_start_tag + '-' + alpha_end_tag)
-        plt.clf()
+                plt.plot(iterations, values, '-ro')
+                size_tag = str(N.size) + '-'
+                scale_tag = str(N.scale) + 'm'
+                alpha_start_tag = str(iterations[0])
+                alpha_end_tag = str(iterations[len(iterations)-1])
+                filename = size_tag + scale_tag + '-' + alpha_start_tag + '-' + alpha_end_tag
+                save_image('paperA_test/alpha-fn_plots', filename)
+                plt.clf()
 
     def hc_test_with_plot(self):
         sizes = [10, 50, 100]
@@ -206,6 +215,16 @@ class ProgressWindow(QWidget):
         fig, ax = plt.subplots(1, 1, figsize=(12,12))
         ax.plot(list(coordinates[0]), list(coordinates[1]), '-ro')
         fig.savefig('HC_plot_objs/' + 'iter_vs_shortest.png')
+
+    def run_all_tests(self):
+        self.test_ellipse()
+        self.test_filter()
+        self.test_graph_construction()
+        self.test_vc()
+        self.test_hill_climb()
+        self.hc_test_with_plot()
+        self.test_standard()
+        self.test_paperA()
 
 def main():
     if not os.path.exists('tests'):

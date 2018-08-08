@@ -109,7 +109,7 @@ class PaperA_Test(QDialog):
 
         plt.clf()
         self.close()
-        return min(self.y)
+        return find_inflection(self.x, self.y, 0.1)
 
 
 

@@ -88,6 +88,34 @@ def fractalize(sequence):
 
     return corridors
 
+
+def find_inflection(x, y, tolerance):
+    m = [float(0) for r in range(len(x))]
+    m_forward = [float(0) for s in range(len(x))]
+    zeros = []
+
+    for i in range(len(x)):
+        if i == 0:
+            m[i] = (y[i+1] - y[i])/(x[i+1] - x[i])
+        elif i == len(x) - 1:
+            m[i] = (y[i] - y[i-1])/(x[i] - x[i-1])
+        else:
+            m[i] = (y[i + 1] - y[i-1]) / (x[i + 1] - x[i-1])
+
+    for j in range(len(x)):
+        splice = m[j:]
+        average = sum(splice)/float(len(splice))
+        m_forward[j] = average
+
+    for l in range(len(m_forward)):
+        if abs(m_forward[l]) < tolerance:
+            zeros.append(l)
+
+    limit = x[min(zeros)]
+
+    return limit
+
+
 def save_image(folder, filename):
     if not os.path.exists(folder):
         os.mkdir(folder)
