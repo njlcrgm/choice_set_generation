@@ -79,15 +79,6 @@ class Hill_Climb_Test(QDialog):
         self.H = HillClimb(0.5, self.N, self.S, self.VC.cover, 1, self.figname)
         self.H.init_hill_climb()
 
-    def climb(self, i):
-        plt.clf()
-        self.N.drawnetwork(self.figname)
-        self.OD.draw_pair(self.figname)
-        self.S.drawnetwork(self.figname)
-        self.F.drawnodes(self.figname)
-        self.VC.drawgraph(self.figname)
-
-        self.H.climb_trial(i)
         self.H.optimalpath = self.H.iterations['guess'][0]
         self.H.optimaltv = self.H.iterations['guess'][1]
 
@@ -96,7 +87,22 @@ class Hill_Climb_Test(QDialog):
         else:
             self.H.determine_optimal_path()
 
+        self.N.drawnetwork(self.figname)
+        self.OD.draw_pair(self.figname)
+        self.S.drawnetwork(self.figname)
+        self.F.drawnodes(self.figname)
+        self.VC.drawgraph(self.figname)
         self.H.draw_optimal_path(self.figname)
+
+    def climb(self, i):
+        plt.clf()
+        self.N.drawnetwork(self.figname)
+        self.OD.draw_pair(self.figname)
+        self.S.drawnetwork(self.figname)
+        self.F.drawnodes(self.figname)
+        self.VC.drawgraph(self.figname)
+
+        self.H.hill_climb(mode='animate', drawing=self.mode)
 
         self.progress.setValue(i+1)
         QApplication.processEvents()

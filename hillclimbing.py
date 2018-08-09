@@ -51,7 +51,7 @@ class HillClimb():
 
             for i in range(self.trials):
                 self.init_hill_climb()
-                opt_tv = self.hill_climb()
+                opt_tv = self.hill_climb(mode='optimize')
                 opt_tv_list.append(opt_tv)
 
                 if len(args) != 0 and args[0] == 'draw_output':
@@ -106,7 +106,7 @@ class HillClimb():
         self.iterations['jump'][1] = self.findtvratio(self.iterations['jump'][0], self.alpha)
         self.tv_list.append(self.iterations['guess'][1])
 
-    def hill_climb(self):
+    def hill_climb(self, **kwargs):
         guess_len = len(self.iterations['guess'][0])
         remaining = len(self.vertexset) - guess_len
 
@@ -117,18 +117,43 @@ class HillClimb():
 
         add_chances = (guess_len+1)*remaining
         change_chances = guess_len*remaining
+
         fact = math.factorial
-        swap_chances = fact(guess_len) / fact(guess_len - 2) / fact(2)
+        if guess_len != 1:
+            swap_chances = fact(guess_len) / fact(guess_len - 2) / fact(2)
+        else:
+            swap_chances = 0
 
         total_chances = add_chances + remove_chances + change_chances + swap_chances
 
-        while self.consistency <= total_chances:
-            self.counter = self.climb_trial(self.counter)
+        if kwargs['mode'] == 'optimize':
+            while self.consistency <= total_chances:
+                self.counter = self.climb_trial(self.counter)
 
-        self.optimalpath = self.iterations['guess'][0]
-        optimaltv = self.iterations['guess'][1]
+            self.optimalpath = self.iterations['guess'][0]
+            optimaltv = self.iterations['guess'][1]
 
-        return optimaltv
+            return optimaltv
+
+        elif kwargs['mode'] == 'animate':
+            if self.consistency <= total_chances:
+                self.counter = self.climb_trial(self.counter)
+
+                self.optimalpath = self.iterations['guess'][0]
+                self.optimaltv = self.iterations['guess'][1]
+
+                if kwargs['drawing'] == 'simple':
+                    self.determine_simplified_optimal_path()
+                else:
+                    self.determine_optimal_path()
+
+                self.draw_optimal_path(self.figname)
+
+            else:
+                if kwargs['drawing'] == 'simple':
+                    self.determine_simplified_optimal_path()
+                else:
+                    self.determine_optimal_path()
 
     def climb_trial(self, i):
         guesscopy = copy.copy(self.iterations['guess'][0])

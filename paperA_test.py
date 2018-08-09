@@ -40,7 +40,7 @@ class PaperA_Test(QDialog):
         ############################
         self.layout = QGridLayout(self)
         self.setGeometry(900, 100, 500, 60)
-        self.setWindowTitle('Running Paper A Test: ' + str(self.alpha))
+        self.setWindowTitle('Running PaperA Test: ' + str(self.N.size) + '-' + str(self.N.scale) + 'm_' + str(self.alpha))
         self.progress = QProgressBar(self)
         self.layout.addWidget(self.progress, 0, 0)
 

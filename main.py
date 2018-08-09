@@ -25,6 +25,8 @@ class ProgressWindow(QWidget):
         self.setGeometry(100, 100, 800, 360)
         self.setWindowTitle('Choice Set Generation')
 
+        self.tests = []
+
         self.ellipse_button = QPushButton('Ellipse Test', self)
         self.filter_button = QPushButton('Filter Test', self)
         self.gc_button = QPushButton('Graph Construction Test', self)
@@ -33,17 +35,21 @@ class ProgressWindow(QWidget):
         self.hcwp_button = QPushButton('HC w/ Plot Test', self)
         self.standard_button = QPushButton('Standard Test', self)
         self.paperA_button = QPushButton('Paper A Test', self)
-        self.run_all_button = QPushButton('Run All Tests', self)
+        self.run_toggled_button = QPushButton('Run Toggled Tests', self)
 
-        self.ellipse_button.clicked.connect(self.test_ellipse)
-        self.filter_button.clicked.connect(self.test_filter)
-        self.gc_button.clicked.connect(self.test_graph_construction)
-        self.vc_button.clicked.connect(self.test_vc)
-        self.hc_button.clicked.connect(self.test_hill_climb)
-        self.hcwp_button.clicked.connect(self.hc_test_with_plot)
-        self.standard_button.clicked.connect(self.test_standard)
-        self.paperA_button.clicked.connect(self.test_paperA)
-        self.run_all_button.clicked.connect(self.run_all_tests)
+        for btn in [self.ellipse_button, self.filter_button, self.gc_button, self.vc_button, self.hc_button,
+                    self.hcwp_button, self.standard_button, self.paperA_button]:
+            btn.setCheckable(True)
+
+        self.ellipse_button.toggled.connect(lambda: self.add_remove_test(self.ellipse_button, self.test_ellipse))
+        self.filter_button.toggled.connect(lambda: self.add_remove_test(self.filter_button, self.test_filter))
+        self.gc_button.toggled.connect(lambda: self.add_remove_test(self.gc_button, self.test_graph_construction))
+        self.vc_button.toggled.connect(lambda: self.add_remove_test(self.vc_button, self.test_vc))
+        self.hc_button.toggled.connect(lambda: self.add_remove_test(self.hc_button, self.test_hill_climb))
+        self.hcwp_button.toggled.connect(lambda: self.add_remove_test(self.hcwp_button, self.test_hc_with_plot))
+        self.standard_button.toggled.connect(lambda: self.add_remove_test(self.standard_button, self.test_standard))
+        self.paperA_button.toggled.connect(lambda: self.add_remove_test(self.paperA_button, self.test_paperA))
+        self.run_toggled_button.clicked.connect(self.run_toggled_tests)
 
         self.ellipse_progress = QProgressBar(self)
         self.filter_progress = QProgressBar(self)
@@ -53,6 +59,7 @@ class ProgressWindow(QWidget):
         self.hcwp_progress = QProgressBar(self)
         self.standard_progress = QProgressBar(self)
         self.paperA_progress = QProgressBar(self)
+        self.run_toggled_progress = QProgressBar(self)
 
         self.layout.addWidget(self.ellipse_button, 0, 0)
         self.layout.addWidget(self.filter_button, 1, 0)
@@ -62,7 +69,7 @@ class ProgressWindow(QWidget):
         self.layout.addWidget(self.hcwp_button, 5, 0)
         self.layout.addWidget(self.standard_button, 6, 0)
         self.layout.addWidget(self.paperA_button, 7, 0)
-        self.layout.addWidget(self.run_all_button, 8, 0)
+        self.layout.addWidget(self.run_toggled_button, 8, 0)
 
         self.layout.addWidget(self.ellipse_progress, 0, 1)
         self.layout.addWidget(self.filter_progress, 1, 1)
@@ -72,6 +79,13 @@ class ProgressWindow(QWidget):
         self.layout.addWidget(self.hcwp_progress, 5, 1)
         self.layout.addWidget(self.standard_progress, 6, 1)
         self.layout.addWidget(self.paperA_progress, 7, 1)
+        self.layout.addWidget(self.run_toggled_progress, 8, 1)
+
+    def add_remove_test(self, button, test):
+        if button.isChecked():
+            self.tests.append(test)
+        else:
+            self.tests.remove(test)
 
     def test_ellipse(self):
         size_iterations = [10, 50, 100]
@@ -126,14 +140,36 @@ class ProgressWindow(QWidget):
 
     def test_hill_climb(self):
         # iterations = [10, 20, 25, 50, 100]
-        iterations = [100]
+        iterations = [25]
         self.hc_progress.setMaximum(len(iterations))
 
         for i in range(len(iterations)):
-            H = Hill_Climb_Test(iterations[i], 1, 1000, 'simple', self)
+            H = Hill_Climb_Test(iterations[i], 1, 100, 'simple', self)
             H.test()
             self.hc_progress.setValue(i + 1)
             QApplication.processEvents()
+
+    def test_hc_with_plot(self):
+        sizes = [10, 50, 100]
+        scales = [1, 5, 10]
+
+        points = []
+
+        self.hcwp_progress.setMaximum(len(sizes)*len(scales))
+
+        for i in range(len(sizes)):
+            for j in range(len(scales)):
+                hcwp = HcPlotObjs(sizes[i], scales[j], self)
+                value = hcwp.test()
+                points.append(value)
+
+                self.hcwp_progress.setValue(i * len(scales) + j + 1)
+
+        coordinates = zip(*points)
+
+        fig, ax = plt.subplots(1, 1, figsize=(12,12))
+        ax.plot(list(coordinates[0]), list(coordinates[1]), '-ro')
+        fig.savefig('HC_plot_objs/' + 'iter_vs_shortest.png')
 
     def test_standard(self):
         size = 100
@@ -159,20 +195,23 @@ class ProgressWindow(QWidget):
             QApplication.processEvents()
 
     def test_paperA(self):
+        # sizes = [10, 50, 100]
+        # scales = [1, 5, 10]
+        # iterations = [0.0, 0.25, 0.5, 0.75, 1]
 
-        sizes = [10, 50, 100]
-        scales = [1, 5, 10]
-        iterations = [0.0, 0.25, 0.5, 0.75, 1]
+        sizes = [10]
+        scales = [1]
+        iterations = [1]
 
-        for z in sizes:
-            for c in scales:
-                values = [0 for i in range(len(iterations))]
-                self.paperA_progress.setMaximum(len(iterations))
+        self.paperA_progress.setMaximum(len(sizes) * len(scales) * len(iterations))
 
+        for z in range(len(sizes)):
+            for c in range(len(scales)):
+                values = [0 for k in range(len(iterations))]
                 if not os.path.exists('paperA_test'):
                     os.mkdir('paperA_test')
 
-                N = Network(z, c)
+                N = Network(sizes[z], scales[c])
                 N.creategrid()
                 N.randomize_atts('h', 'Motorway')
                 N.same_atts('p', 'None')
@@ -182,7 +221,7 @@ class ProgressWindow(QWidget):
                     P = PaperA_Test(iterations[i], N, self)
                     y = P.test(25, 4)
                     values[i] = y
-                    self.paperA_progress.setValue(z*len(sizes)*len(scales) + c*len(scales) + i + 1)
+                    self.paperA_progress.setValue(z*len(scales)*len(iterations) + c*len(iterations) + i + 1)
                     QApplication.processEvents()
 
                 plt.plot(iterations, values, '-ro')
@@ -194,37 +233,13 @@ class ProgressWindow(QWidget):
                 save_image('paperA_test/alpha-fn_plots', filename)
                 plt.clf()
 
-    def hc_test_with_plot(self):
-        sizes = [10, 50, 100]
-        scales = [1, 5, 10]
-
-        points = []
-
-        self.hcwp_progress.setMaximum(len(sizes)*len(scales))
-
-        for i in range(len(sizes)):
-            for j in range(len(scales)):
-                hcwp = HcPlotObjs(sizes[i], scales[j], self)
-                value = hcwp.test()
-                points.append(value)
-
-                self.hcwp_progress.setValue(i * len(scales) + j + 1)
-
-        coordinates = zip(*points)
-
-        fig, ax = plt.subplots(1, 1, figsize=(12,12))
-        ax.plot(list(coordinates[0]), list(coordinates[1]), '-ro')
-        fig.savefig('HC_plot_objs/' + 'iter_vs_shortest.png')
-
-    def run_all_tests(self):
-        self.test_ellipse()
-        self.test_filter()
-        self.test_graph_construction()
-        self.test_vc()
-        self.test_hill_climb()
-        self.hc_test_with_plot()
-        self.test_standard()
-        self.test_paperA()
+    def run_toggled_tests(self):
+        self.run_toggled_progress.setMaximum(len(self.tests))
+        p = 0
+        for test in self.tests:
+            test()
+            p += 1
+            self.run_toggled_progress.setValue(p)
 
 def main():
     if not os.path.exists('tests'):
