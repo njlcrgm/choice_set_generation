@@ -3,64 +3,24 @@
   <component name="ChangeListManager">
     <list default="true" id="b0b59bdc-860d-41a7-a694-9bfa91f474b3" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hc_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/hc_test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hillclimbing.py" beforeDir="false" afterPath="$PROJECT_DIR$/hillclimbing.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/paperA_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/paperA_test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/HC_plot_objs/iter_vs_shortest.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/HC_plot_objs/obj-plots/100_1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/HC_plot_objs/obj-plots/100_10.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/HC_plot_objs/obj-plots/100_5.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/HC_plot_objs/obj-plots/10_1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/HC_plot_objs/obj-plots/10_10.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/HC_plot_objs/obj-plots/10_5.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/HC_plot_objs/obj-plots/50_1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/HC_plot_objs/obj-plots/50_10.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/HC_plot_objs/obj-plots/50_5.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/paperA_test/alpha-fn_plots/10-10m-0.0-1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/paperA_test/alpha-fn_plots/10-1m-0.0-1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/paperA_test/alpha-fn_plots/10-5m-0.0-1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/paperA_test/alpha-fn_plots/100-1m-0.0-1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/paperA_test/alpha-fn_plots/50-10m-0.0-1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/paperA_test/alpha-fn_plots/50-1m-0.0-1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/paperA_test/alpha-fn_plots/50-2m-0.5-0.5.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/paperA_test/alpha-fn_plots/50-5m-0.0-1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/paperA_test/no_drawing_10-10m/0.0node-obj plot.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/paperA_test/no_drawing_10-10m/0.25node-obj plot.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/paperA_test/no_drawing_10-10m/0.5node-obj plot.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/paperA_test/no_drawing_10-10m/0.75node-obj plot.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/paperA_test/no_drawing_10-10m/1node-obj plot.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/paperA_test/no_drawing_10-1m/0.0node-obj plot.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/paperA_test/no_drawing_10-1m/0.25node-obj plot.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/paperA_test/no_drawing_10-1m/0.5node-obj plot.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/paperA_test/no_drawing_10-1m/0.75node-obj plot.png" beforeDir="false" afterPath="$PROJECT_DIR$/tests/paperA_test/no_drawing_10-1m/0.75node-obj plot.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/paperA_test/no_drawing_10-1m/1node-obj plot.png" beforeDir="false" afterPath="$PROJECT_DIR$/tests/paperA_test/no_drawing_10-1m/1node-obj plot.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/paperA_test/no_drawing_10-5m/0.0node-obj plot.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/paperA_test/no_drawing_10-5m/0.25node-obj plot.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/paperA_test/no_drawing_10-5m/0.5node-obj plot.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/paperA_test/no_drawing_10-5m/0.75node-obj plot.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/paperA_test/no_drawing_10-5m/1node-obj plot.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/paperA_test/no_drawing_100-1m/0.0node-obj plot.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/paperA_test/no_drawing_100-1m/0.25node-obj plot.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/paperA_test/no_drawing_100-1m/0.5node-obj plot.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/paperA_test/no_drawing_100-1m/0.75node-obj plot.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/paperA_test/no_drawing_100-1m/1node-obj plot.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/paperA_test/no_drawing_50-10m/0.0node-obj plot.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/paperA_test/no_drawing_50-10m/0.25node-obj plot.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/paperA_test/no_drawing_50-10m/0.5node-obj plot.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/paperA_test/no_drawing_50-10m/0.75node-obj plot.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/paperA_test/no_drawing_50-10m/1node-obj plot.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/paperA_test/no_drawing_50-1m/0.0node-obj plot.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/paperA_test/no_drawing_50-1m/0.25node-obj plot.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/paperA_test/no_drawing_50-1m/0.5node-obj plot.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/paperA_test/no_drawing_50-1m/0.75node-obj plot.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/paperA_test/no_drawing_50-1m/1node-obj plot.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/paperA_test/no_drawing_50-2m/0.5node-obj plot.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/paperA_test/no_drawing_50-5m/0.0node-obj plot.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/paperA_test/no_drawing_50-5m/0.25node-obj plot.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/paperA_test/no_drawing_50-5m/0.5node-obj plot.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/paperA_test/no_drawing_50-5m/0.75node-obj plot.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/paperA_test/no_drawing_50-5m/1node-obj plot.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/ellipse_test/50_0.5km.mp4" beforeDir="false" afterPath="$PROJECT_DIR$/tests/ellipse_test/50_0.5km.mp4" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/graph_construction_test/100_1km.mp4" beforeDir="false" afterPath="$PROJECT_DIR$/tests/graph_construction_test/100_1km.mp4" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/graph_construction_test/10_10km.mp4" beforeDir="false" afterPath="$PROJECT_DIR$/tests/graph_construction_test/10_10km.mp4" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/graph_construction_test/20_5km.mp4" beforeDir="false" afterPath="$PROJECT_DIR$/tests/graph_construction_test/20_5km.mp4" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/graph_construction_test/25_4km.mp4" beforeDir="false" afterPath="$PROJECT_DIR$/tests/graph_construction_test/25_4km.mp4" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/graph_construction_test/50_2km.mp4" beforeDir="false" afterPath="$PROJECT_DIR$/tests/graph_construction_test/50_2km.mp4" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/hill_climb_test/10_1km.mp4" beforeDir="false" afterPath="$PROJECT_DIR$/tests/hill_climb_test/10_1km.mp4" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/hill_climb_test/25_1km.mp4" beforeDir="false" afterPath="$PROJECT_DIR$/tests/hill_climb_test/25_1km.mp4" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/paperA_test/alpha-fn_plots/10-1m-1-1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/paperA_test/no_drawing_10-1m/0.75node-obj plot.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/paperA_test/no_drawing_10-1m/1node-obj plot.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/vertex_cover_test/100_1km.mp4" beforeDir="false" afterPath="$PROJECT_DIR$/tests/vertex_cover_test/100_1km.mp4" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/vertex_cover_test/10_10km.mp4" beforeDir="false" afterPath="$PROJECT_DIR$/tests/vertex_cover_test/10_10km.mp4" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/vertex_cover_test/20_5km.mp4" beforeDir="false" afterPath="$PROJECT_DIR$/tests/vertex_cover_test/20_5km.mp4" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/vertex_cover_test/25_4km.mp4" beforeDir="false" afterPath="$PROJECT_DIR$/tests/vertex_cover_test/25_4km.mp4" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/vertex_cover_test/50_2km.mp4" beforeDir="false" afterPath="$PROJECT_DIR$/tests/vertex_cover_test/50_2km.mp4" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utilities.py" beforeDir="false" afterPath="$PROJECT_DIR$/utilities.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -72,7 +32,7 @@
     <session id="1765111781">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="9" />
+          <entry key="project.closed" value="10" />
           <entry key="project.open.time.0" value="1" />
           <entry key="project.open.time.1" value="1" />
           <entry key="project.open.time.15" value="1" />
@@ -88,46 +48,46 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="py" value="17" />
+          <entry key="py" value="18" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="Python" value="17" />
+          <entry key="Python" value="18" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="py" value="6317" />
+          <entry key="py" value="6470" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Python" value="6317" />
+          <entry key="Python" value="6470" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
-              <caret line="142" column="24" selection-start-line="142" selection-start-column="24" selection-end-line="142" selection-end-column="24" />
+            <state relative-caret-position="153">
+              <caret line="197" column="23" selection-start-line="197" selection-start-column="23" selection-end-line="197" selection-end-column="23" />
               <folding>
                 <element signature="e#0#31#0" expanded="true" />
-                <marker date="1533835695079" expanded="true" signature="3933:4056" ph="..." />
+                <marker date="1533870681184" expanded="true" signature="3933:4056" ph="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/hc_test.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-34">
-              <caret line="85" column="54" selection-start-line="85" selection-start-column="54" selection-end-line="85" selection-end-column="54" />
+            <state relative-caret-position="187">
+              <caret line="103" selection-start-line="103" selection-end-line="103" />
               <folding>
                 <element signature="e#0#27#0" expanded="true" />
               </folding>
@@ -138,8 +98,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/paperA_test.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-765">
-              <caret line="46" column="30" selection-start-line="46" selection-start-column="30" selection-end-line="46" selection-end-column="30" />
+            <state relative-caret-position="238">
+              <caret line="111" column="50" selection-start-line="111" selection-start-column="50" selection-end-line="111" selection-end-column="50" />
               <folding>
                 <element signature="e#0#27#0" expanded="true" />
               </folding>
@@ -161,10 +121,22 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/hillclimbing.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-544">
-              <caret line="143" lean-forward="true" selection-start-line="143" selection-end-line="143" />
+            <state relative-caret-position="-697">
+              <caret line="143" selection-start-line="143" selection-end-line="143" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/utilities.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="380">
+              <caret line="121" selection-start-line="121" selection-end-line="121" />
+              <folding>
+                <element signature="e#0#11#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -197,10 +169,10 @@
       <list>
         <option value="$PROJECT_DIR$/tests/hc_test_plot_tvs.py" />
         <option value="$PROJECT_DIR$/hc_plot_objs_test.py" />
-        <option value="$PROJECT_DIR$/utilities.py" />
         <option value="$PROJECT_DIR$/hillclimbing.py" />
         <option value="$PROJECT_DIR$/hc_test.py" />
         <option value="$PROJECT_DIR$/paperA_test.py" />
+        <option value="$PROJECT_DIR$/utilities.py" />
         <option value="$PROJECT_DIR$/main.py" />
       </list>
     </option>
@@ -291,14 +263,13 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.28456375" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32907802" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32907802" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32907802" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -331,10 +302,23 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/hc_test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="103" selection-start-line="103" selection-end-line="103" />
+          <folding>
+            <element signature="e#0#27#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/utilities.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="459">
-          <caret line="114" selection-start-line="114" selection-end-line="114" />
+        <state relative-caret-position="380">
+          <caret line="121" selection-start-line="121" selection-end-line="121" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -349,8 +333,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/paperA_test.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-765">
-          <caret line="46" column="30" selection-start-line="46" selection-start-column="30" selection-end-line="46" selection-end-column="30" />
+        <state relative-caret-position="238">
+          <caret line="111" column="50" selection-start-line="111" selection-start-column="50" selection-end-line="111" selection-end-column="50" />
           <folding>
             <element signature="e#0#27#0" expanded="true" />
           </folding>
@@ -359,8 +343,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/hillclimbing.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-544">
-          <caret line="143" lean-forward="true" selection-start-line="143" selection-end-line="143" />
+        <state relative-caret-position="-697">
+          <caret line="143" selection-start-line="143" selection-end-line="143" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
           </folding>
@@ -369,21 +353,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="142" column="24" selection-start-line="142" selection-start-column="24" selection-end-line="142" selection-end-column="24" />
+        <state relative-caret-position="153">
+          <caret line="197" column="23" selection-start-line="197" selection-start-column="23" selection-end-line="197" selection-end-column="23" />
           <folding>
             <element signature="e#0#31#0" expanded="true" />
-            <marker date="1533835695079" expanded="true" signature="3933:4056" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/hc_test.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-34">
-          <caret line="85" column="54" selection-start-line="85" selection-start-column="54" selection-end-line="85" selection-end-column="54" />
-          <folding>
-            <element signature="e#0#27#0" expanded="true" />
+            <marker date="1533870681184" expanded="true" signature="3933:4056" ph="..." />
           </folding>
         </state>
       </provider>

@@ -139,8 +139,7 @@ class ProgressWindow(QWidget):
             QApplication.processEvents()
 
     def test_hill_climb(self):
-        # iterations = [10, 20, 25, 50, 100]
-        iterations = [25]
+        iterations = [10, 20, 25, 50, 100]
         self.hc_progress.setMaximum(len(iterations))
 
         for i in range(len(iterations)):
@@ -195,13 +194,13 @@ class ProgressWindow(QWidget):
             QApplication.processEvents()
 
     def test_paperA(self):
-        # sizes = [10, 50, 100]
-        # scales = [1, 5, 10]
-        # iterations = [0.0, 0.25, 0.5, 0.75, 1]
+        sizes = [10, 100]
+        scales = [1, 5]
+        iterations = [0.0, 0.25, 0.5, 0.75, 1]
 
-        sizes = [10]
-        scales = [1]
-        iterations = [1]
+        # sizes = [50]
+        # scales = [1]
+        # iterations = [1]
 
         self.paperA_progress.setMaximum(len(sizes) * len(scales) * len(iterations))
 

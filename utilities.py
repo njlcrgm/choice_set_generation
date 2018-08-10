@@ -111,9 +111,13 @@ def find_inflection(x, y, tolerance):
         if abs(m_forward[l]) < tolerance:
             zeros.append(l)
 
-    limit = x[min(zeros)]
+    if len(zeros) != 0:
+        limit = x[min(zeros)]
+        return limit
 
-    return limit
+    else:
+        new_tolerance = tolerance + 0.1
+        find_inflection(x, y, new_tolerance)
 
 
 def save_image(folder, filename):
