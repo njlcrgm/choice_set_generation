@@ -213,6 +213,7 @@ class ProgressWindow(QWidget):
                 N.randomize_atts('h', 'Motorway')
                 N.same_atts('p', 'None')
                 N.same_atts('s', (0, 6))
+                N.assign_edge_weights()
 
                 for i in range(len(iterations)):
                     P = PaperA_Test(iterations[i], N, self)

@@ -79,6 +79,8 @@ class Standard_Test(QDialog):
         if self.realize:
             N.realize_network(self.origin, self.destination)
 
+        N.assign_edge_weights()
+
         N.drawnetwork(self.figname)
 
         print 'Network Created.'
