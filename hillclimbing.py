@@ -1,4 +1,4 @@
-from utilities import euclideandist
+from utilities import *
 from collections import Counter
 
 import networkx as nx
@@ -20,8 +20,8 @@ class HillClimb():
         ##########################
         self.iterations = {}
         self.counter = 0
-        self.consistency = 0
-        self.consistencylimit = 100000
+        # self.consistency = 0
+        # self.consistencylimit = 100000
         self.jumps_done = []
         ##########################
         self.optimaltv = 0
@@ -58,7 +58,9 @@ class HillClimb():
                     self.determine_optimal_path()
                     self.draw_optimal_nodes(self.figname)
                     if args[1] == 'leaf_mode':
+                        self.determine_choice_set()
                         self.draw_leaf(self.figname)
+                        self.draw_optimal_path(self.figname)
                     elif args[1] == 'path_mode':
                         self.draw_optimal_path(self.figname)
 
@@ -76,7 +78,9 @@ class HillClimb():
                 self.determine_optimal_path()
                 self.draw_optimal_nodes(self.figname)
                 if args[1] == 'leaf_mode':
+                    self.determine_choice_set()
                     self.draw_leaf(self.figname)
+                    self.draw_optimal_path(self.figname)
                 elif args[1] == 'path_mode':
                     self.draw_optimal_path(self.figname)
 
@@ -110,25 +114,16 @@ class HillClimb():
         guess_len = len(self.iterations['guess'][0])
         remaining = len(self.vertexset) - guess_len
 
-        if guess_len == 1:
-            remove_chances = 0
-        else:
-            remove_chances = guess_len
-
-        add_chances = (guess_len+1)*remaining
-        change_chances = guess_len*remaining
-
-        fact = math.factorial
-        if guess_len != 1:
-            swap_chances = fact(guess_len) / fact(guess_len - 2) / fact(2)
-        else:
-            swap_chances = 0
-
-        total_chances = add_chances + remove_chances + change_chances + swap_chances
+        total_chances = count_chances(guess_len, remaining)
 
         if kwargs['mode'] == 'optimize':
-            while self.consistency <= total_chances:
+            # while self.consistency <= total_chances:
+            while len(self.jumps_done) < total_chances:
                 self.counter = self.climb_trial(self.counter)
+                guess_len = len(self.iterations['guess'][0])
+                remaining = len(self.vertexset) - guess_len
+
+                total_chances = count_chances(guess_len, remaining)
 
             self.optimalpath = self.iterations['guess'][0]
             optimaltv = self.iterations['guess'][1]
@@ -136,7 +131,8 @@ class HillClimb():
             return optimaltv
 
         elif kwargs['mode'] == 'animate':
-            if self.consistency <= total_chances:
+            # if self.consistency <= total_chances:
+            if len(self.jumps_done) < total_chances:
                 self.counter = self.climb_trial(self.counter)
 
                 self.optimalpath = self.iterations['guess'][0]
@@ -155,6 +151,8 @@ class HillClimb():
                 else:
                     self.determine_optimal_path()
 
+                self.draw_optimal_path(self.figname)
+
     def climb_trial(self, i):
         guesscopy = copy.copy(self.iterations['guess'][0])
         jump = self.randomjump(guesscopy)
@@ -165,7 +163,7 @@ class HillClimb():
         self.iterations['jump'][1] = whatif
 
         if self.iterations['jump'][1] < self.iterations['guess'][1]:
-            self.consistency = 0
+            # self.consistency = 0
             self.jumps_done = []
 
             self.iterations['guess'][0] = copy.copy(self.iterations['jump'][0])
@@ -174,7 +172,7 @@ class HillClimb():
 
         else:
             self.jumps_done.append(record)
-            self.consistency += 1
+            # self.consistency += 1
 
         i += 1
         return i

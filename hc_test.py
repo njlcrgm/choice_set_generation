@@ -75,6 +75,9 @@ class Hill_Climb_Test(QDialog):
         self.VC.constructgraph()
 
         #########################
+        coverlen = len(self.VC.cover)
+        self.frames = count_chances(coverlen, coverlen)
+        self.progress.setMaximum(self.frames)
 
         self.H = HillClimb(0.5, self.N, self.S, self.VC.cover, 1, self.figname)
         self.H.init_hill_climb()
@@ -110,13 +113,11 @@ class Hill_Climb_Test(QDialog):
     def test(self):
         self.filter()
 
-        frames = self.frames
-        self.progress.setMaximum(frames)
         self.show()
 
         fig = plt.figure(self.figname, figsize=(12, 12))
 
-        video = anim.FuncAnimation(fig, self.climb, frames=frames, interval=100, blit=False)
+        video = anim.FuncAnimation(fig, self.climb, frames=self.frames, interval=100, blit=False)
 
         if not os.path.exists(self.folder):
             os.mkdir(self.folder)

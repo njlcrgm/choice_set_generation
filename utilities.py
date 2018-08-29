@@ -2,6 +2,8 @@ import math
 import copy
 import os
 import matplotlib.pyplot as plt
+import numpy as np
+from scipy.optimize import curve_fit
 
 def detourfunction(dist):
     a = 1.209549
@@ -89,36 +91,36 @@ def fractalize(sequence):
     return corridors
 
 
-def find_inflection(x, y, tolerance):
-    m = [float(0) for r in range(len(x))]
-    m_forward = [float(0) for s in range(len(x))]
-    zeros = []
-
-    for i in range(len(x)):
-        if i == 0:
-            m[i] = (y[i+1] - y[i])/(x[i+1] - x[i])
-        elif i == len(x) - 1:
-            m[i] = (y[i] - y[i-1])/(x[i] - x[i-1])
-        else:
-            m[i] = (y[i + 1] - y[i-1]) / (x[i + 1] - x[i-1])
-
-    for j in range(len(x)):
-        splice = m[j:]
-        average = sum(splice)/float(len(splice))
-        m_forward[j] = average
-
-    for l in range(len(m_forward)):
-        if abs(m_forward[l]) < tolerance:
-            zeros.append(l)
-
-    if len(zeros) != 0:
-        limit = x[min(zeros)]
-        return limit
-
+def count_chances(guess_len, remaining):
+    if guess_len == 1:
+        remove_chances = 0
     else:
-        new_tolerance = tolerance + 0.1
-        find_inflection(x, y, new_tolerance)
+        remove_chances = guess_len
 
+    add_chances = (guess_len + 1) * remaining
+    change_chances = guess_len * remaining
+
+    fact = math.factorial
+    if guess_len != 1:
+        swap_chances = fact(guess_len) / fact(guess_len - 2) / fact(2)
+    else:
+        swap_chances = 0
+
+    total_chances = add_chances + remove_chances + change_chances + swap_chances
+
+    return total_chances
+
+# def find_saturation(x, y, tolerance):
+#     def func(t, a, b, c, h):
+#         return a*np.exp(-1*b*(t-h)) + c
+#
+#     popt, pcov = curve_fit(func, x, y, maxfev=10000)
+#
+#     afit, bfit, cfit, hfit = tuple(popt)
+#
+#     xvalue = (-1/bfit)*np.log((-1/(afit*bfit))*(-1)*tolerance) + hfit
+#
+#     return xvalue
 
 def save_image(folder, filename):
     if not os.path.exists(folder):

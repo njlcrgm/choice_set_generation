@@ -100,6 +100,8 @@ class HcPlotObjs(QDialog):
             indexes.append(i + 1)
 
         hcplot, hcplotax = plt.subplots(1, 1, figsize=(12, 12))
+        hcplotax.set_xlabel('Iteration No.')
+        hcplotax.set_ylabel('Objective Function Value')
         hcplotax.plot(indexes, self.H.tv_list, color='r', marker='o', ms=2, mfc='g', mec='g', lw=2)
 
         if not os.path.exists(self.folder):

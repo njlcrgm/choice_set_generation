@@ -31,6 +31,8 @@ class Standard_Test(QDialog):
         self.same = kwargs['same']
         self.random_c = kwargs['random_c']
         self.input = {'h': kwargs['h'], 'p': kwargs['p'], 's': kwargs['s']}
+        self.exp_corridor = kwargs['exp_corridor']
+        self.realize = kwargs['realize']
         ########################
         self.hctrials = kwargs['hctrials']
         self.mode = kwargs['mode']
@@ -61,19 +63,25 @@ class Standard_Test(QDialog):
         for i in self.random_c:
             N.randomize_atts_corridors(i, self.input[i])
 
-        N.create_corridor('h', ['Motorway'], 'row', [int(self.size/2)])
-        N.create_corridor('p', ['None'], 'row', [int(self.size / 2)])
-        N.create_corridor('s', [(0,6)], 'row', [int(self.size / 2)])
+        if self.exp_corridor:
+            N.create_corridor('h', ['Motorway'], 'row', [int(self.size/2)])
+            N.create_corridor('p', ['None'], 'row', [int(self.size / 2)])
+            N.create_corridor('s', [(0,6)], 'row', [int(self.size / 2)])
 
-        N.create_corridor('h', ['Motorway'], 'column', [int(0)])
-        N.create_corridor('p', ['None'], 'column', [int(0)])
-        N.create_corridor('s', [(0, 6)], 'column', [int(0)])
+            N.create_corridor('h', ['Motorway'], 'column', [int(0)])
+            N.create_corridor('p', ['None'], 'column', [int(0)])
+            N.create_corridor('s', [(0, 6)], 'column', [int(0)])
 
-        N.create_corridor('h', ['Motorway'], 'column', [int(self.size - 1)])
-        N.create_corridor('p', ['None'], 'column', [int(self.size - 1)])
-        N.create_corridor('s', [(0, 6)], 'column', [int(self.size - 1)])
+            N.create_corridor('h', ['Motorway'], 'column', [int(self.size - 1)])
+            N.create_corridor('p', ['None'], 'column', [int(self.size - 1)])
+            N.create_corridor('s', [(0, 6)], 'column', [int(self.size - 1)])
+
+        if self.realize:
+            N.realize_network(self.origin, self.destination)
 
         N.drawnetwork(self.figname)
+
+        print 'Network Created.'
 
         self.progress.setValue(1)
         QApplication.processEvents()
@@ -84,6 +92,8 @@ class Standard_Test(QDialog):
         OD.create_pair()
         OD.draw_pair(self.figname)
 
+        print 'OD Created'
+
         self.progress.setValue(2)
         QApplication.processEvents()
 
@@ -93,6 +103,8 @@ class Standard_Test(QDialog):
         S.reducenetwork()
         S.compute_affinities()
         S.drawnetwork(self.figname)
+
+        print 'Subnetwork Created'
 
         self.progress.setValue(3)
         QApplication.processEvents()
@@ -108,6 +120,8 @@ class Standard_Test(QDialog):
         self.progress.setValue(4)
         QApplication.processEvents()
 
+        print 'Filter done'
+
         #################################
 
         VC = VertexCover(N, S, F, len(F.filterednodes))
@@ -118,6 +132,8 @@ class Standard_Test(QDialog):
         self.progress.setValue(5)
         QApplication.processEvents()
 
+        print 'VC determined'
+
         #################################
 
         HC = HillClimb(0.5, N, S, VC.cover, self.hctrials, self.figname)
@@ -125,6 +141,8 @@ class Standard_Test(QDialog):
 
         self.progress.setValue(6)
         QApplication.processEvents()
+
+        print 'Hill Climb done'
 
         #################################
 

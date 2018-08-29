@@ -139,11 +139,12 @@ class ProgressWindow(QWidget):
             QApplication.processEvents()
 
     def test_hill_climb(self):
-        iterations = [10, 20, 25, 50, 100]
+        # iterations = [10, 20, 25, 50, 100]
+        iterations = [30]
         self.hc_progress.setMaximum(len(iterations))
 
         for i in range(len(iterations)):
-            H = Hill_Climb_Test(iterations[i], 1, 100, 'simple', self)
+            H = Hill_Climb_Test(iterations[i], 1, 1000, 'simple', self)
             H.test()
             self.hc_progress.setValue(i + 1)
             QApplication.processEvents()
@@ -175,7 +176,7 @@ class ProgressWindow(QWidget):
         scale = 0.5
         origin = 0
         destination = int(size ** 2 - 1)
-        h_in_list = ['Motorway', 'Trunk', 'Primary', 'Secondary', 'Tertiary', 'Residential', 'Service']
+        h_in_list = ['Motorway']
         p_in = 'None'
         s_in = (0, 6)
         hctrials = 1
@@ -186,27 +187,24 @@ class ProgressWindow(QWidget):
             os.mkdir('standard_test')
 
         for item in h_in_list:
-            ST = Standard_Test(self, size, scale, o=origin, d=destination, random=[], same=['s', 'p'], random_c=['h'],
-                               h=item, p=p_in, s=s_in, hctrials=hctrials, mode='path_mode')
+            ST = Standard_Test(self, size, scale, o=origin, d=destination, random=['h'], same=['s', 'p'], random_c=[],
+                               h=item, p=p_in, s=s_in, hctrials=hctrials, mode='leaf_mode', exp_corridor=False,
+                               realize=False)
             ST.test()
             i = h_in_list.index(item)
             self.standard_progress.setValue(i+1)
             QApplication.processEvents()
 
     def test_paperA(self):
-        sizes = [10, 100]
-        scales = [1, 5]
-        iterations = [0.0, 0.25, 0.5, 0.75, 1]
-
-        # sizes = [50]
-        # scales = [1]
-        # iterations = [1]
+        sizes = [50, 100]
+        scales = [1]
+        iterations = [0.00, 0.25, 0.50, 0.75, 1.00]
 
         self.paperA_progress.setMaximum(len(sizes) * len(scales) * len(iterations))
 
         for z in range(len(sizes)):
             for c in range(len(scales)):
-                values = [0 for k in range(len(iterations))]
+                values = [0 for k in range(len(iterations)-1)]
                 if not os.path.exists('paperA_test'):
                     os.mkdir('paperA_test')
 
@@ -218,18 +216,27 @@ class ProgressWindow(QWidget):
 
                 for i in range(len(iterations)):
                     P = PaperA_Test(iterations[i], N, self)
-                    y = P.test(25, 4)
-                    values[i] = y
+                    P.test(25, 4)
+                    # if iterations[i] != 1.00:
+                    #     values[i] = y
                     self.paperA_progress.setValue(z*len(scales)*len(iterations) + c*len(iterations) + i + 1)
                     QApplication.processEvents()
 
-                plt.plot(iterations, values, '-ro')
-                size_tag = str(N.size) + '-'
-                scale_tag = str(N.scale) + 'm'
-                alpha_start_tag = str(iterations[0])
-                alpha_end_tag = str(iterations[len(iterations)-1])
-                filename = size_tag + scale_tag + '-' + alpha_start_tag + '-' + alpha_end_tag
-                save_image('paperA_test/alpha-fn_plots', filename)
+                # xs = copy.copy(iterations)
+                # xs.pop()
+                # plt.plot(xs, values, '-ro')
+                #
+                # axes = plt.gca()
+                #
+                # axes.set_xlabel('alpha')
+                # axes.set_ylabel('Candidate Nodes Saturation Point')
+
+                # size_tag = str(N.size) + '-'
+                # scale_tag = str(N.scale) + 'm'
+                # alpha_start_tag = str(iterations[0])
+                # alpha_end_tag = str(iterations[len(iterations)-1])
+                # filename = size_tag + scale_tag + '-' + alpha_start_tag + '-' + alpha_end_tag
+                # save_image('paperA_test/alpha-fn_plots', filename)
                 plt.clf()
 
     def run_toggled_tests(self):
@@ -252,7 +259,6 @@ def main():
     P.show()
 
     sys.exit(app.exec_())
-
 
 if __name__ == '__main__':
     main()

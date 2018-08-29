@@ -12,6 +12,7 @@ from PySide2.QtCore import *
 import matplotlib.pyplot as plt
 import matplotlib.animation as anim
 
+import csv
 import random
 import copy
 import math
@@ -99,18 +100,32 @@ class PaperA_Test(QDialog):
         plt.plot(self.x, self.y, '-o')
 
         axes = plt.gca()
+
+        axes.set_xlabel('Number of nodes in V_f (f)')
+        axes.set_ylabel('Objective Function Value')
         axes.set_xlim(0, runs*interval)
         axes.set_ylim(0, 2 * self.N.size)
+
+        txtname = 'paperA_test/no_drawing_' + size_tag + scale_tag + '/' + str(self.alpha) + 'node-obj_plot.csv'
 
         if self.draw_mode == 'draw_output':
             save_image(str(self.alpha) + size_tag + scale_tag, 'node-obj plot')
         else:
             save_image('paperA_test/no_drawing_' + size_tag + scale_tag, str(self.alpha) + 'node-obj plot')
 
+        with open(txtname, mode='w') as node_obj_plot:
+            writer = csv.writer(node_obj_plot, delimiter=',')
+
+            writer.writerow(['f', 'obj'])
+            for i in range(len(self.x)):
+                writer.writerow([str(self.x[i]), str(self.y[i])])
+
         plt.clf()
         self.close()
-        return find_inflection(self.x, self.y, 0.1)
 
-
-
+        # if self.alpha != 1.00:
+        #     return find_saturation(self.x, self.y, 0.25)
+        #
+        # else:
+        #     return 0
 
