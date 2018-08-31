@@ -68,13 +68,13 @@ class Standard_Test(QDialog):
             N.create_corridor('p', ['None'], 'row', [int(self.size / 2)])
             N.create_corridor('s', [(0,6)], 'row', [int(self.size / 2)])
 
-            N.create_corridor('h', ['Motorway'], 'column', [int(0)])
-            N.create_corridor('p', ['None'], 'column', [int(0)])
-            N.create_corridor('s', [(0, 6)], 'column', [int(0)])
+            # N.create_corridor('h', ['Motorway'], 'column', [int(0)])
+            # N.create_corridor('p', ['None'], 'column', [int(0)])
+            # N.create_corridor('s', [(0, 6)], 'column', [int(0)])
 
-            N.create_corridor('h', ['Motorway'], 'column', [int(self.size - 1)])
-            N.create_corridor('p', ['None'], 'column', [int(self.size - 1)])
-            N.create_corridor('s', [(0, 6)], 'column', [int(self.size - 1)])
+            # N.create_corridor('h', ['Motorway'], 'column', [int(self.size - 1)])
+            # N.create_corridor('p', ['None'], 'column', [int(self.size - 1)])
+            # N.create_corridor('s', [(0, 6)], 'column', [int(self.size - 1)])
 
         if self.realize:
             N.realize_network(self.origin, self.destination)
@@ -114,7 +114,7 @@ class Standard_Test(QDialog):
         #################################
 
         F = FilteredNetwork(N, S)
-        F.filter()
+        F.filter(50)
         F.clear_edges()
         F.constructgraph()
         F.drawnodes(self.figname)
@@ -123,22 +123,23 @@ class Standard_Test(QDialog):
         QApplication.processEvents()
 
         print 'Filter done'
+        print len(F.filterednodes)
+
+        #################################
+        #
+        # VC = VertexCover(N, S, F, len(F.filterednodes))
+        # VC.find_best_vc()
+        # VC.constructgraph()
+        # VC.drawgraph(self.figname)
+        #
+        # self.progress.setValue(5)
+        # QApplication.processEvents()
+        #
+        # print 'VC determined'
 
         #################################
 
-        VC = VertexCover(N, S, F, len(F.filterednodes))
-        VC.find_best_vc()
-        VC.constructgraph()
-        VC.drawgraph(self.figname)
-
-        self.progress.setValue(5)
-        QApplication.processEvents()
-
-        print 'VC determined'
-
-        #################################
-
-        HC = HillClimb(0.5, N, S, VC.cover, self.hctrials, self.figname)
+        HC = HillClimb(0.5, N, S, F.filterednodes, self.hctrials, self.figname)
         HC.multiple_trials('draw_output', self.mode)
 
         self.progress.setValue(6)

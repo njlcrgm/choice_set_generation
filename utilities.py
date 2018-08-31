@@ -110,17 +110,40 @@ def count_chances(guess_len, remaining):
 
     return total_chances
 
-# def find_saturation(x, y, tolerance):
-#     def func(t, a, b, c, h):
-#         return a*np.exp(-1*b*(t-h)) + c
-#
-#     popt, pcov = curve_fit(func, x, y, maxfev=10000)
-#
-#     afit, bfit, cfit, hfit = tuple(popt)
-#
-#     xvalue = (-1/bfit)*np.log((-1/(afit*bfit))*(-1)*tolerance) + hfit
-#
-#     return xvalue
+def find_saturation(x, y, tolerance):
+    # def func(t, a, b, c, h):
+    #     return a*np.exp(-1*b*(t-h)) + c
+    #
+    # popt, pcov = curve_fit(func, x, y, maxfev=10000)
+    #
+    # afit, bfit, cfit, hfit = tuple(popt)
+    #
+    # xvalue = (-1/bfit)*np.log((-1/(afit*bfit))*(-1)*tolerance) + hfit
+    #
+    # return xvalue
+
+    mean_error = [0 for i in range(len(y)-1)]
+
+    for i in range(len(y)-1):
+        error = 0
+
+        for j in range(i+1, len(y)):
+            error += y[j] - y[i]
+
+        mean_error[i] = error/(len(y) - (i+1))
+
+    candidates = []
+
+    print mean_error
+
+    for k in range(len(mean_error)):
+        if abs(mean_error[k]) < tolerance:
+            candidates.append(k)
+
+    saturation_point = int(min(candidates))
+
+    return x[saturation_point]
+
 
 def save_image(folder, filename):
     if not os.path.exists(folder):

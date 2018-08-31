@@ -172,11 +172,11 @@ class ProgressWindow(QWidget):
         fig.savefig('HC_plot_objs/' + 'iter_vs_shortest.png')
 
     def test_standard(self):
-        size = 100
-        scale = 0.5
+        size = 50
+        scale = 1
         origin = 0
         destination = int(size ** 2 - 1)
-        h_in_list = ['Motorway']
+        h_in_list = ['Motorway', 'Trunk', 'Primary', 'Secondary', 'Tertiary', 'Residential', 'Service']
         p_in = 'None'
         s_in = (0, 6)
         hctrials = 1
@@ -196,15 +196,15 @@ class ProgressWindow(QWidget):
             QApplication.processEvents()
 
     def test_paperA(self):
-        sizes = [50, 100]
+        sizes = [50]
         scales = [1]
-        iterations = [0.00, 0.25, 0.50, 0.75, 1.00]
+        iterations = [0.10, 0.20, 0.30, 0.40, 0.50, 0.60, 0.70, 0.80, 0.90, 1.00]
 
         self.paperA_progress.setMaximum(len(sizes) * len(scales) * len(iterations))
 
         for z in range(len(sizes)):
             for c in range(len(scales)):
-                values = [0 for k in range(len(iterations)-1)]
+                values = [0 for k in range(len(iterations))]
                 if not os.path.exists('paperA_test'):
                     os.mkdir('paperA_test')
 
@@ -217,27 +217,35 @@ class ProgressWindow(QWidget):
 
                 for i in range(len(iterations)):
                     P = PaperA_Test(iterations[i], N, self)
-                    P.test(25, 4)
-                    # if iterations[i] != 1.00:
-                    #     values[i] = y
+                    y = P.test(100, 1)
+                    values[i] = y
                     self.paperA_progress.setValue(z*len(scales)*len(iterations) + c*len(iterations) + i + 1)
                     QApplication.processEvents()
 
-                # xs = copy.copy(iterations)
-                # xs.pop()
-                # plt.plot(xs, values, '-ro')
-                #
-                # axes = plt.gca()
-                #
-                # axes.set_xlabel('alpha')
-                # axes.set_ylabel('Candidate Nodes Saturation Point')
+                plt.plot(iterations, values, '-ro')
 
-                # size_tag = str(N.size) + '-'
-                # scale_tag = str(N.scale) + 'm'
-                # alpha_start_tag = str(iterations[0])
-                # alpha_end_tag = str(iterations[len(iterations)-1])
-                # filename = size_tag + scale_tag + '-' + alpha_start_tag + '-' + alpha_end_tag
-                # save_image('paperA_test/alpha-fn_plots', filename)
+                axes = plt.gca()
+
+                axes.set_xlabel('alpha')
+                axes.set_ylabel('Candidate Nodes Saturation Point')
+
+                size_tag = str(N.size) + '-'
+                scale_tag = str(N.scale) + 'm'
+                alpha_start_tag = str(iterations[0])
+                alpha_end_tag = str(iterations[len(iterations)-1])
+                filename = size_tag + scale_tag + '-' + alpha_start_tag + '-' + alpha_end_tag
+
+                save_image('paperA_test/alpha-fn_plots', filename)
+
+                txtname = 'paperA_test/alpha-fn_plots/' + filename + '.csv'
+
+                with open(txtname, mode='w') as node_obj_plot:
+                    writer = csv.writer(node_obj_plot, delimiter=',')
+
+                    writer.writerow(['f', 'obj'])
+                    for i in range(len(iterations)):
+                        writer.writerow([str(iterations[i]), str(values[i])])
+
                 plt.clf()
 
     def run_toggled_tests(self):
