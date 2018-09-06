@@ -52,7 +52,10 @@ class Standard_Test(QDialog):
         self.show()
 
         N = Network(self.size, self.scale)
-        N.creategrid()
+        if self.realize:
+            N.realize_network()
+        else:
+            N.creategrid()
 
         for i in self.random:
             N.randomize_atts(i, self.input[i])
@@ -75,9 +78,6 @@ class Standard_Test(QDialog):
             # N.create_corridor('h', ['Motorway'], 'column', [int(self.size - 1)])
             # N.create_corridor('p', ['None'], 'column', [int(self.size - 1)])
             # N.create_corridor('s', [(0, 6)], 'column', [int(self.size - 1)])
-
-        if self.realize:
-            N.realize_network(self.origin, self.destination)
 
         N.assign_edge_weights()
 

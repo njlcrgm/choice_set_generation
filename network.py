@@ -153,55 +153,13 @@ class Network():
         for edge in self.graph.edges:
                 length = euclideandist(edge[0], edge[1], self.pos)
                 speed = float(self.Hspeedlimit[self.graph.edges[edge]['h']])
-                self.graph.add_edge(*edge, w = length/speed)
+                self.graph.add_edge(*edge, w = 60*length/speed)
 
-    def realize_network(self, origin, destination):
-        dummy_graph = self.graph.copy()
-        elim = 0
+    def realize_network(self):
+        self.graph = nx.complete_graph(self.size)
 
-        while nx.has_path(dummy_graph, origin, destination) and (float(len(dummy_graph.nodes))/float(self.size**2) > 0.5):
-            elim = random.choice(list(dummy_graph.nodes))
-            if elim not in [origin, destination]:
-                dummy_graph.remove_node(elim)
-
-        include_nodes = list(dummy_graph.nodes) + [elim]
-        new_graph = nx.subgraph(self.graph, include_nodes).copy()
-
-        self.graph = new_graph
-
-        # opts = [True, False]
-        # include_nodes = [origin]
-        # current = origin
-        #
-        # while destination not in include_nodes:
-        #     neigh = [n for n in self.graph.neighbors(current)]
-        #     for node in neigh:
-        #         stay = np.random.choice(opts, p=[0.5, 0.5])
-        #         if (stay or (node in [origin, destination])) and (node not in include_nodes):
-        #             include_nodes.append(node)
-        #
-        #     current = random.choice(neigh)
-        #
-        # new_graph = nx.subgraph(self.graph, include_nodes).copy()
-        #
-        # for snodes in new_graph.nodes:
-        #     if new_graph.edges(snodes) == 0:
-        #         new_graph.remove_node(snodes)
-        #
-        # self.graph = new_graph
-
-        # dummy_graph = self.graph.copy()
-        # include_nodes = [origin, destination]
-        #
-        # while nx.has_path(dummy_graph, origin, destination):
-        #     path = nx.shortest_path(dummy_graph, origin, destination)
-        #     for i in path:
-        #         if i not in include_nodes:
-        #             include_nodes.append(i)
-        #             dummy_graph.remove_node(i)
-        #
-        # new_graph = nx.subgraph(self.graph, include_nodes).copy()
-        # self.graph = new_graph
+        for node in self.graph:
+            self.pos[node] = (np.random.uniform(0, 2*self.scale*self.size), np.random.uniform(0, 2*self.scale*self.size))
 
     def drawnetwork(self, figname):
         plt.figure(figname, figsize=(12, 12))

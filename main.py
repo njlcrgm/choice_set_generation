@@ -172,10 +172,11 @@ class ProgressWindow(QWidget):
         fig.savefig('HC_plot_objs/' + 'iter_vs_shortest.png')
 
     def test_standard(self):
-        size = 50
+        size = 20
         scale = 1
         origin = 0
         destination = int(size ** 2 - 1)
+        # destination = size - 1
         h_in_list = ['Motorway', 'Trunk', 'Primary', 'Secondary', 'Tertiary', 'Residential', 'Service']
         p_in = 'None'
         s_in = (0, 6)
@@ -189,16 +190,16 @@ class ProgressWindow(QWidget):
         for item in h_in_list:
             ST = Standard_Test(self, size, scale, o=origin, d=destination, random=['h'], same=['s', 'p'], random_c=[],
                                h=item, p=p_in, s=s_in, hctrials=hctrials, mode='leaf_mode', exp_corridor=False,
-                               realize=False)
+                               realize=True)
             ST.test()
             i = h_in_list.index(item)
             self.standard_progress.setValue(i+1)
             QApplication.processEvents()
 
     def test_paperA(self):
-        sizes = [50]
+        sizes = [20]
         scales = [1]
-        iterations = [0.10, 0.20, 0.30, 0.40, 0.50, 0.60, 0.70, 0.80, 0.90, 1.00]
+        iterations = [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.00]
 
         self.paperA_progress.setMaximum(len(sizes) * len(scales) * len(iterations))
 
@@ -209,15 +210,16 @@ class ProgressWindow(QWidget):
                     os.mkdir('paperA_test')
 
                 N = Network(sizes[z], scales[c])
-                N.creategrid()
+                # N.creategrid()
+                N.realize_network()
                 N.randomize_atts('h', 'Motorway')
                 N.same_atts('p', 'None')
                 N.same_atts('s', (0, 6))
                 N.assign_edge_weights()
 
                 for i in range(len(iterations)):
-                    P = PaperA_Test(iterations[i], N, self)
-                    y = P.test(100, 1)
+                    P = PaperA_Test(iterations[i], N, self, graph='real', draw_mode=None, output_mode=None)
+                    y = P.test(20, 1)
                     values[i] = y
                     self.paperA_progress.setValue(z*len(scales)*len(iterations) + c*len(iterations) + i + 1)
                     QApplication.processEvents()
@@ -247,6 +249,9 @@ class ProgressWindow(QWidget):
                         writer.writerow([str(iterations[i]), str(values[i])])
 
                 plt.clf()
+
+                N.drawnetwork('network')
+                save_image('paperA_test/alpha-fn_plots', 'network')
 
     def run_toggled_tests(self):
         self.run_toggled_progress.setMaximum(len(self.tests))

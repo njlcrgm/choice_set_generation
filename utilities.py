@@ -110,7 +110,7 @@ def count_chances(guess_len, remaining):
 
     return total_chances
 
-def find_saturation(x, y, tolerance):
+def find_saturation(x, y):
     # def func(t, a, b, c, h):
     #     return a*np.exp(-1*b*(t-h)) + c
     #
@@ -134,16 +134,17 @@ def find_saturation(x, y, tolerance):
 
     candidates = []
 
-    print mean_error
-
     for k in range(len(mean_error)):
-        if abs(mean_error[k]) < tolerance:
+        if abs(mean_error[k]) < 0.05*y[k]:
             candidates.append(k)
 
-    saturation_point = int(min(candidates))
+    if len(candidates) == 0:
+        return x[len(x) - 1]
 
-    return x[saturation_point]
+    else:
+        saturation_point = int(min(candidates))
 
+        return x[saturation_point]
 
 def save_image(folder, filename):
     if not os.path.exists(folder):

@@ -29,6 +29,7 @@ class PaperA_Test(QDialog):
         self.x = []
         self.y = []
         self.alpha = alpha
+        self.graph_mode = kwargs['graph']
 
         if len(kwargs) != 0:
             self.draw_mode = kwargs['draw_mode']
@@ -46,7 +47,11 @@ class PaperA_Test(QDialog):
         self.layout.addWidget(self.progress, 0, 0)
 
     def initialize_test(self):
-        self.OD = ODPair(self.N, 0, self.N.size**2 - 1)
+        if self.graph_mode == 'grid':
+            self.OD = ODPair(self.N, 0, self.N.size**2 - 1)
+        else:
+            self.OD = ODPair(self.N, 0, self.N.size - 1)
+
         self.OD.create_pair()
 
         self.S = Subnetwork(self.N, self.OD)
@@ -122,7 +127,7 @@ class PaperA_Test(QDialog):
         self.close()
 
         if self.alpha != 1.00:
-            return find_saturation(self.x, self.y, 0.05)
+            return find_saturation(self.x, self.y)
 
         else:
             return 0
