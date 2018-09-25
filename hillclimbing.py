@@ -162,7 +162,20 @@ class HillClimb():
         self.iterations['jump'][0] = jump[0]
         self.iterations['jump'][1] = whatif
 
+        max_guess = int(round((float(2)/float(3))*len(self.vertexset) - float(1)/float(6)))
+        max_chances = count_chances(max_guess, len(self.vertexset) - max_guess)
+
+        b = -math.log(0.01/0.5)/float(max_chances)
+
+        false_prob = 0.5*math.exp(float(-1)*b*float(i))
+        true_prob = float(1) - false_prob
+
         if self.iterations['jump'][1] < self.iterations['guess'][1]:
+            decision = np.random.choice([True, False], p=[true_prob, false_prob])
+        else:
+            decision = np.random.choice([True, False], p=[false_prob, true_prob])
+
+        if decision:
             # self.consistency = 0
             self.jumps_done = []
 

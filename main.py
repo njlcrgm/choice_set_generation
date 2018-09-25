@@ -88,8 +88,8 @@ class ProgressWindow(QWidget):
             self.tests.remove(test)
 
     def test_ellipse(self):
-        size_iterations = [10, 50, 100]
-        scale_iterations = [0.5, 5, 10]
+        size_iterations = [30]
+        scale_iterations = [5]
         mode = 'slanted'
 
         self.ellipse_progress.setMaximum(len(size_iterations)*len(scale_iterations))
@@ -139,19 +139,18 @@ class ProgressWindow(QWidget):
             QApplication.processEvents()
 
     def test_hill_climb(self):
-        # iterations = [10, 20, 25, 50, 100]
         iterations = [30]
         self.hc_progress.setMaximum(len(iterations))
 
         for i in range(len(iterations)):
-            H = Hill_Climb_Test(iterations[i], 1, 1000, 'simple', self)
+            H = Hill_Climb_Test(iterations[i], 5, 1000, 'simple', self)
             H.test()
             self.hc_progress.setValue(i + 1)
             QApplication.processEvents()
 
     def test_hc_with_plot(self):
-        sizes = [10, 50, 100]
-        scales = [1, 5, 10]
+        sizes = [30]
+        scales = [5]
 
         points = []
 
@@ -172,8 +171,8 @@ class ProgressWindow(QWidget):
         fig.savefig('HC_plot_objs/' + 'iter_vs_shortest.png')
 
     def test_standard(self):
-        size = 20
-        scale = 1
+        size = 30
+        scale = 5
         origin = 0
         destination = int(size ** 2 - 1)
         # destination = size - 1
@@ -190,16 +189,16 @@ class ProgressWindow(QWidget):
         for item in h_in_list:
             ST = Standard_Test(self, size, scale, o=origin, d=destination, random=['h'], same=['s', 'p'], random_c=[],
                                h=item, p=p_in, s=s_in, hctrials=hctrials, mode='leaf_mode', exp_corridor=False,
-                               realize=True)
+                               realize=False)
             ST.test()
             i = h_in_list.index(item)
             self.standard_progress.setValue(i+1)
             QApplication.processEvents()
 
     def test_paperA(self):
-        sizes = [20]
-        scales = [1]
-        iterations = [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.00]
+        sizes = [30]
+        scales = [5]
+        iterations = [0.0, 0.2, 0.4, 0.6, 0.8, 1.0]
 
         self.paperA_progress.setMaximum(len(sizes) * len(scales) * len(iterations))
 
@@ -210,16 +209,15 @@ class ProgressWindow(QWidget):
                     os.mkdir('paperA_test')
 
                 N = Network(sizes[z], scales[c])
-                # N.creategrid()
-                N.realize_network()
+                N.creategrid()
                 N.randomize_atts('h', 'Motorway')
                 N.same_atts('p', 'None')
                 N.same_atts('s', (0, 6))
                 N.assign_edge_weights()
 
                 for i in range(len(iterations)):
-                    P = PaperA_Test(iterations[i], N, self, graph='real', draw_mode=None, output_mode=None)
-                    y = P.test(20, 1)
+                    P = PaperA_Test(iterations[i], N, self, graph='grid', draw_mode=None, output_mode=None)
+                    y = P.test(int(round((sizes[z]**2)/10)), 10)
                     values[i] = y
                     self.paperA_progress.setValue(z*len(scales)*len(iterations) + c*len(iterations) + i + 1)
                     QApplication.processEvents()

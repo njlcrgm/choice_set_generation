@@ -44,6 +44,7 @@ class Hill_Climb_Test(QDialog):
         self.N.randomize_atts('h', 'Motorway')
         self.N.same_atts('p', 'None')
         self.N.same_atts('s', (0, 6))
+        self.N.assign_edge_weights()
 
         self.N.drawnetwork(self.figname)
 
