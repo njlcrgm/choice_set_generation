@@ -7,7 +7,7 @@ class ODPair():
         self.network = network
         self.origin = origin
         self.destination = destination
-        self.options = {'node_color': 'black', 'node_size': 50, 'width': 1}
+        self.options = {'node_color': 'black', 'node_size': 110, 'width': 1}
 
         # print '\tODPair created with origin at node ' + str(self.origin) + ' and destination at node ' + str(self.destination) + '.'
 

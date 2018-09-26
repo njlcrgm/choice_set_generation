@@ -16,8 +16,8 @@ class VertexCover():
         self.dummygraph = nx.Graph()
         ########################
         self.vctrials = vctrials
-        self.options = {'node_color': 'brown', 'node_size': 60, 'width': 1}
-        self.foptions = {'node_color': 'black', 'edge_color': 'green', 'node_size': 20, 'width': 0.5}
+        self.options = {'node_color': 'brown', 'node_size': 130, 'width': 1}
+        self.foptions = {'node_color': 'black', 'edge_color': 'green', 'node_size': 50, 'width': 0.5}
 
     def find_best_vc(self):
         VCscores = {}

@@ -12,7 +12,7 @@ class FilteredNetwork():
         self.network = network
         self.filternumber = 0
         self.filterednodes = []
-        self.options = {'node_color': 'black', 'edge_color': 'green', 'node_size': 20, 'width': 0.5}
+        self.options = {'node_color': 'black', 'edge_color': 'green', 'node_size': 50, 'width': 0.5}
         self.randomnode = 0
 
     def filter(self, *args):

@@ -106,6 +106,7 @@ class PaperA_Test(QDialog):
 
         axes = plt.gca()
 
+        axes.set_ylim(0, 400)
         axes.set_xlabel('Number of nodes in V_f (f)')
         axes.set_ylabel('Objective Function Value')
 

@@ -39,8 +39,8 @@ class HillClimb():
         self.trials = trials
         self.figname = figname
         self.nodeoptions = {'node_color': 'red', 'node_size': 50}
-        self.pathoptions = {'node_color': 'brown', 'edge_color': 'brown', 'node_size': 1, 'width': 3}
-        self.leafoptions = {'node_color': 'blue', 'edge_color': 'blue', 'node_size': 1, 'width': 3}
+        self.pathoptions = {'node_color': 'brown', 'edge_color': 'red', 'node_size': 1, 'width': 7}
+        self.leafoptions = {'node_color': 'blue', 'edge_color': 'blue', 'node_size': 1, 'width': 7}
 
     def multiple_trials(self, *args):
         spl = nx.shortest_path_length(self.subnetwork.graph, source=self.origin, target=self.destination, weight='w')
@@ -115,6 +115,8 @@ class HillClimb():
         remaining = len(self.vertexset) - guess_len
 
         total_chances = count_chances(guess_len, remaining)
+        a = len(self.vertexset)
+        max_tries = int(round((0.25)*(1.0/a)*(2.0*(a**3) + 3.0*(a**2) - 8.0*a + 3)))
 
         if kwargs['mode'] == 'optimize':
             # while self.consistency <= total_chances:
